@@ -55,6 +55,46 @@ np.unique(train_masks_encoded_original_shape)
 #################################################
 train_masks_input = np.expand_dims(train_masks_encoded_original_shape, axis=3)
 
+#augment the dataset
+import albumentations as A
+def augment_dataset_tf(train_images, train_masks):
+     #  Augmentations should always be performed on both an input image and a mask if applied at all
+    if tf.random.uniform(()) > 0.5:
+        train_images = tf.image.flip_left_right(train_images)
+        train_masks = tf.image.flip_left_right(train_masks)
+    if tf.random.uniform(()) > 0.5:
+        train_images = tf.image.flip_up_down(train_images)
+        train_masks = tf.image.flip_up_down(train_masks)
+    if tf.random.uniform(()) > 0.5:
+        train_images = tf.image.rot90(train_images)
+        train_masks = tf.image.rot90(train_masks)
+        
+    return train_images, train_masks
+
+def albumentations(img, train_masks):
+    # Augmentation pipeline - each of these has an adjustable probability
+    # of being applied, regardless of other transforms
+    transform = A.Compose([
+        A.HorizontalFlip(p=0.5),
+        A.RandomBrightnessContrast(p=0.3),
+        A.Transpose(p=0.5),
+        A.VerticalFlip(p=0.5),
+        A.HorizontalFlip(p=0.5),
+        A.Rotate(limit=70),
+        # CoarseDropout is the new Cutout implementation
+        A.CoarseDropout(p=0.5, max_holes=12, max_height=24, max_width=24)
+    ])
+    
+    # Apply transforms and extract image and mask
+    transformed = transform(train_images=train_images, mask=train_masks)
+    transformed_image = transformed['train_images']
+    transformed_mask = transformed['train_masks']
+    
+    # Cast to TF Floats and return
+    transformed_image = tf.cast(transformed_image, tf.float32)
+    transformed_mask = tf.cast(transformed_mask, tf.float32)
+    return transformed_image, transformed_mask
+
 #Create a subset of data for quick testing
 #Picking 15% for testing and remaining for training
 from sklearn.model_selection import train_test_split
@@ -85,7 +125,7 @@ LR = 0.0001
 optim = keras.optimizers.Adam(LR)
 
 # set class weights for dice_loss 
-dice_loss = sm.losses.DiceLoss(class_weights=np.array([0.25, 0.25, 0.25, 0.25])) 
+dice_loss = sm.losses.DiceLoss(class_weights=np.array([0.1, 0.4, 0.4, 0.1])) 
 focal_loss = sm.losses.CategoricalFocalLoss()
 total_loss = dice_loss + (1 * focal_loss)
 
