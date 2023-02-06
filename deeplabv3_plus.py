@@ -135,12 +135,12 @@ def define_deeplabv3_plus(image_size, num_classes, backbone):
     model_input = keras.Input(shape=(image_size, image_size, 3))
     
     if backbone == 'resnet':
-        resnet101 = keras.applications.ResNet152(
+        resnet = keras.applications.ResNet152(
             weights="imagenet", 
             include_top=False, 
             input_tensor=model_input)
-        x = resnet101.get_layer("conv4_block6_2_relu").output
-        low_level = resnet101.get_layer("conv2_block3_2_relu").output
+        x = resnet.get_layer("conv4_block6_2_relu").output
+        low_level = resnet.get_layer("conv2_block3_2_relu").output
         
     elif backbone == 'effnet':
         effnet = keras.applications.EfficientNetV2B1(
