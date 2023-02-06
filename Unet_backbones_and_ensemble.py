@@ -57,21 +57,22 @@ train_masks_input = np.expand_dims(train_masks_encoded_original_shape, axis=3)
 
 #augment the dataset
 import albumentations as A
-def augment_dataset_tf(train_images, train_masks):
+
+def augment_dataset_tf(img, mask):
      #  Augmentations should always be performed on both an input image and a mask if applied at all
     if tf.random.uniform(()) > 0.5:
-        train_images = tf.image.flip_left_right(train_images)
-        train_masks = tf.image.flip_left_right(train_masks)
+        img = tf.image.flip_left_right(img)
+        mask = tf.image.flip_left_right(mask)
     if tf.random.uniform(()) > 0.5:
-        train_images = tf.image.flip_up_down(train_images)
-        train_masks = tf.image.flip_up_down(train_masks)
+        img = tf.image.flip_up_down(img)
+        mask = tf.image.flip_up_down(mask)
     if tf.random.uniform(()) > 0.5:
-        train_images = tf.image.rot90(train_images)
-        train_masks = tf.image.rot90(train_masks)
-        
-    return train_images, train_masks
+        img = tf.image.rot90(img)
+        mask = tf.image.rot90(mask)
+            
+    return img, mask
 
-def albumentations(img, train_masks):
+def albumentations(img, mask):
     # Augmentation pipeline - each of these has an adjustable probability
     # of being applied, regardless of other transforms
     transform = A.Compose([
@@ -86,7 +87,7 @@ def albumentations(img, train_masks):
     ])
     
     # Apply transforms and extract image and mask
-    transformed = transform(train_images=train_images, mask=train_masks)
+    transformed = transform(img=train_images, mask=train_masks)
     transformed_image = transformed['train_images']
     transformed_mask = transformed['train_masks']
     
