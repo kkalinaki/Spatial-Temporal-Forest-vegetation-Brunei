@@ -9,3 +9,5 @@ This is the python code for running the U-Net and its pretrained backbones and e
 This is the python code for running the Deeplabv3+
 # multi_class_u_net_model
 This is the code for the standard U-Net model
+# multi_class_u_net_model_training
+This is the code for training the standard U-Net model
