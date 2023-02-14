@@ -7,3 +7,5 @@ This file contains the python code that shows how the patches wewre generated fo
 This is the python code for running the U-Net and its pretrained backbones and ensemble
 # deeplabv3_plus.py
 This is the python code for running the Deeplabv3+
+# multi_class_u_net_model
+This is the code for the standard U-Net model
