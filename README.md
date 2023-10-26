@@ -13,13 +13,3 @@ This is the code for the standard U-Net model
 This is the code for training the standard U-Net model
 
 
-# Cite our paper using the following:
-@article{kalinaki2023spatial,
-  title={Spatial-temporal mapping of forest vegetation cover changes along highways in Brunei using deep learning techniques and Sentinel-2 images},
-  author={Kalinaki, Kassim and Malik, Owais Ahmed and Lai, Daphne Teck Ching and Sukri, Rahayu Sukmaria and Wahab, Rodzay Bin Haji Abdul},
-  journal={Ecological Informatics},
-  volume={77},
-  pages={102193},
-  year={2023},
-  publisher={Elsevier}
-}
