@@ -12,7 +12,7 @@ This is the code for the standard U-Net model
 # multi_class_u_net_model_training
 This is the code for training the standard U-Net model
 # If you find this code useful, cite our work
-
+```
 @article{kalinaki2023spatial,
   title={Spatial-temporal mapping of forest vegetation cover changes along highways in Brunei using deep learning techniques and Sentinel-2 images},
   author={Kalinaki, Kassim and Malik, Owais Ahmed and Lai, Daphne Teck Ching and Sukri, Rahayu Sukmaria and Wahab, Rodzay Bin Haji Abdul},
@@ -22,4 +22,4 @@ This is the code for training the standard U-Net model
   year={2023},
   publisher={Elsevier}
 }
-
+```
